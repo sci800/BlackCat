@@ -19,7 +19,7 @@ public class ItemDatabase : MonoBehaviour
     {
         for (int i = 0; i < 5; i++)
         {
-            Item item = itemDB[Random.Range(0, 3)];
+            Item item = itemDB[Random.Range(0, 4)];
             GameObject obj = Instantiate(item.itemObject, pos[i], Quaternion.identity);
             obj.GetComponent<FieldItems>().SetItem(item);
         }

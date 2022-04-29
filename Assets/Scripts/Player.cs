@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Player : BaseStatus
 {
+    [SerializeField] private GameObject[] weapons;
     [SerializeField] private LayerMask whatisGround;
 
     private float x_input, z_input;
-    private bool isdash;
+    private bool isdash, isWeapon,isZoom;
     private int inven_num = 0;
 
     private Rigidbody rb;
@@ -15,6 +16,7 @@ public class Player : BaseStatus
     private RaycastHit hit;
 
     private Inventory inven;
+    private BaseWeapon curWeapon;
     private KeyCode[] keyCodes =
     {
         KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3,
@@ -58,6 +60,14 @@ public class Player : BaseStatus
             isdash = false;
         }
 
+        if(Input.GetButtonDown("Fire1"))
+        {
+            if(isWeapon == true)
+            {
+                Fire();
+            }
+        }
+
         for(int i = 0; i< keyCodes.Length; i++)
         {
             if (Input.GetKeyDown(keyCodes[i]))
@@ -70,6 +80,12 @@ public class Player : BaseStatus
 
     }
     
+    private void Fire()
+    {
+        if (curWeapon.GetBulletAmount())
+            curWeapon.Shot(transform.forward);
+    }
+
     private void CheckDash()
     {
         if(isdash)
@@ -85,9 +101,29 @@ public class Player : BaseStatus
 
     private void UseInven()
     {
-        if(inven.slotsBig[inven_num].item.itemType == ITEM_TYPE.EQUIPMENT)
+        if (inven.slotsBig[inven_num].item.itemType == ITEM_TYPE.EQUIPMENT)
         {
-            Debug.Log("Use");
+            isWeapon = true;
+            for (int i = 0; i < weapons.Length; i++)
+            {
+                weapons[i].SetActive(false);
+            }
+
+            switch (inven.slotsBig[inven_num].itemName)
+            {
+                case "Gun":
+                    weapons[0].SetActive(true);
+                    curWeapon = weapons[0].GetComponent<Gun>();
+                    break;
+                case "Bow":
+                    weapons[1].SetActive(true);
+                    curWeapon = weapons[1].GetComponent<Bow>();
+                    break;
+            }
+        }
+        else
+        {
+            isWeapon = false;
         }
     }
 
