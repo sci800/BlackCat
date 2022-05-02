@@ -5,21 +5,11 @@ using UnityEngine;
 public class Gun : BaseWeapon
 {
     [SerializeField] private GameObject bulletObject;
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public override void Shot(Vector3 dir)
+    public override void Shot()
     {
         Debug.Log("Gun");
         GameObject _obj = Instantiate(bulletObject, firePos.position, transform.parent.rotation);
-        
+        _obj.GetComponent<Bullet>().SetBullet(damage, speed);
     }
 }

@@ -83,7 +83,7 @@ public class Player : BaseStatus
     private void Fire()
     {
         if (curWeapon.GetBulletAmount())
-            curWeapon.Shot(transform.forward);
+            curWeapon.Shot();
     }
 
     private void CheckDash()
