@@ -12,17 +12,5 @@ public class ItemDatabase : MonoBehaviour
 
     public List<Item> itemDB = new List<Item>();
 
-    public GameObject fieldItemPrefab;
-    public Vector3[] pos;
 
-    private void Start()
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            Item item = itemDB[Random.Range(0, 4)];
-            GameObject obj = Instantiate(item.itemObject, pos[i], Quaternion.identity);
-            obj.GetComponent<FieldItems>().SetItem(item);
-        }
-        
-    }
 }
