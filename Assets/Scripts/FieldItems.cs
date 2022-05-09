@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class FieldItems : MonoBehaviour
 {
     public Item item;
+    public TMP_Text item_name;
 
     public void SetItem(Item _item)
     {
@@ -13,7 +15,8 @@ public class FieldItems : MonoBehaviour
         item.itemImage = _item.itemImage;
         item.itemType = _item.itemType;
 
-        item.itemObject = _item.itemObject;
+        item_name.text = item.itemName;
+        //item.itemObject = _item.itemObject;
     }
 
     public Item GetItem()

@@ -5,7 +5,8 @@ using UnityEngine;
 public class BaseWeapon : MonoBehaviour
 {
     [SerializeField] protected int bulletAmount;
-    [SerializeField] protected float damge;
+    [SerializeField] protected float damage;
+    [SerializeField] protected float speed;
     [SerializeField] protected Transform firePos;
     [SerializeField] private int ReloadbulletAmount;
 
@@ -34,7 +35,7 @@ public class BaseWeapon : MonoBehaviour
         bulletAmount = ReloadbulletAmount;
     }
 
-    public virtual void Shot(Vector3 dir)
+    public virtual void Shot()
     {
         Debug.Log("Error");
     }

@@ -4,20 +4,12 @@ using UnityEngine;
 
 public class Bow : BaseWeapon
 {
-    
-    void Start()
-    {
-        
-    }
+    [SerializeField] private GameObject bowObject;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public override void Shot(Vector3 dir)
+    public override void Shot()
     {
         Debug.Log("Bow");
+        GameObject _obj = Instantiate(bowObject, firePos.position, transform.parent.rotation);
+        _obj.GetComponent<Bullet>().SetBullet(damage, speed);
     }
 }

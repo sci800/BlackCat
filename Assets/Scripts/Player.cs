@@ -6,7 +6,7 @@ public class Player : BaseStatus
 {
     [SerializeField] private GameObject[] weapons;
     [SerializeField] private LayerMask whatisGround;
-
+    [SerializeField] private GameObject curObject;
     private float x_input, z_input;
     private bool isdash, isWeapon,isZoom;
     private int inven_num = 0;
@@ -14,7 +14,7 @@ public class Player : BaseStatus
     private Rigidbody rb;
     private Ray camerRay;
     private RaycastHit hit;
-
+    
     private Inventory inven;
     private BaseWeapon curWeapon;
     private KeyCode[] keyCodes =
@@ -68,22 +68,30 @@ public class Player : BaseStatus
             }
         }
 
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            if (curObject != null)
+            {
+                Interaction();
+            }
+        }
+
         for(int i = 0; i< keyCodes.Length; i++)
         {
             if (Input.GetKeyDown(keyCodes[i]))
             {
+                if (inven_num == i) return;
                 inven_num = i;
+                
                 UseInven();
             }
-        }
-        
-
+        }     
     }
     
     private void Fire()
     {
         if (curWeapon.GetBulletAmount())
-            curWeapon.Shot(transform.forward);
+            curWeapon.Shot();
     }
 
     private void CheckDash()
@@ -101,13 +109,16 @@ public class Player : BaseStatus
 
     private void UseInven()
     {
+
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            weapons[i].SetActive(false);
+        }
+
         if (inven.slotsBig[inven_num].item.itemType == ITEM_TYPE.EQUIPMENT)
         {
             isWeapon = true;
-            for (int i = 0; i < weapons.Length; i++)
-            {
-                weapons[i].SetActive(false);
-            }
+            
 
             switch (inven.slotsBig[inven_num].itemName)
             {
@@ -143,7 +154,24 @@ public class Player : BaseStatus
         }
     }
 
-  
+    private void Interaction()
+    {
+        curObject.SendMessage("Interaction");
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Building"))
+        {
+            curObject = other.gameObject;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (curObject != null)
+            curObject = null;
+    }
 
 
 }
