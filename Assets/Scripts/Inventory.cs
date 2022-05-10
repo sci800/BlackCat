@@ -74,7 +74,7 @@ public class Inventory : MonoBehaviour
                 if(slotsSmall[i].item.itemName == "")
                 {
                     slotsSmall[i].UpdateSlotUI(_item);
-                    if (i <= 9)
+                    if (i < 9)
                     {
                         slotsBig[i].UpdateSlotUI(_item);
                     }

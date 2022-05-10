@@ -21,4 +21,13 @@ public class Bullet : MonoBehaviour
         speed = _speed;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Building") || other.CompareTag("alive"))
+        {
+            other.GetComponent<FieldObject>().SendMessage("OnDamage");
+            Destroy(this.gameObject);
+        }
+    }
+
 }

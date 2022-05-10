@@ -8,7 +8,6 @@ public class Gun : BaseWeapon
 
     public override void Shot()
     {
-        Debug.Log("Gun");
         GameObject _obj = Instantiate(bulletObject, firePos.position, transform.parent.rotation);
         _obj.GetComponent<Bullet>().SetBullet(damage, speed);
     }

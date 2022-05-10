@@ -18,6 +18,7 @@ public enum ITEM_KINDS
     NONE
 }
 
+
 [System.Serializable]
 public class Item
 {
