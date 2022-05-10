@@ -32,7 +32,6 @@ public class Slot : MonoBehaviour
 
     public void AddCount(int _count)
     {
-
         _itemCount += _count;
         itemCount.text = _itemCount.ToString();
     }
