@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+public enum EItemType
+{
+    RAKE,
+    AXE,
+    PICK,
+    NONE
+}
 
 public class Player : BaseStatus
 {
-    public enum EItemType
-    {
-        RAKE,
-        AXE,
-        PICK,
-        NONE
-    }
+    
+  
 
     [SerializeField] private GameObject[] weapons;
     [SerializeField] private LayerMask whatisGround;

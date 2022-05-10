@@ -9,13 +9,7 @@ public struct Drop_Item
     public int persent;
     public EItemType needNecessaryItem;
 }
-    public enum EItemType
-    {
-        RAKE,
-        AXE,
-        PICK,
-        NONE
-    }
+    
 
 public class FieldObject : MonoBehaviour
 {
@@ -149,7 +143,7 @@ public class FieldObject : MonoBehaviour
         for (int i = 0; i < drop_Items.Length; i++)
         {
             persent += drop_Items[i].persent;
-            if (_necessaryItem == drop_Items[i].needNecessaryItem)
+            if (_necessaryItem == drop_Items[i].needNecessaryItem || drop_Items[i].needNecessaryItem == EItemType.NONE)
             {             
                 if (selectNum <= persent)
                 {
