@@ -13,6 +13,13 @@ public struct Drop_Item
 
 public class FieldObject : MonoBehaviour
 {
+    public enum TYPE
+    {
+        ALIVE,
+        BUILDING
+    }
+    public TYPE type;
+
     public int interaction_Count;
     public int hit_Count;
     public float interaction_persent;
@@ -47,16 +54,17 @@ public class FieldObject : MonoBehaviour
 
     public void Interaction(EItemType _necessaryItem)
     {
-        if (interaction_Count <= 0) return;
+        if (interaction_Count <= 0 || type != TYPE.BUILDING) return;
 
         interaction_Count--;
         DropItme(true, _necessaryItem);
 
     }
 
-    public void OnDamage()
+    public void OnDamage(int _damage)
     {
-        hit_Count--;
+        Debug.Log("attack");
+        hit_Count -= _damage;
         if (hit_Count <= 0)
         {
             DropItme(false);
@@ -78,7 +86,7 @@ public class FieldObject : MonoBehaviour
 
                 kind_obj.transform.localPosition = Vector3.zero;
                 obj.GetComponent<FieldItems>().SetItem(interraction_dropItems[dropindex].dropItem);
-                obj.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-2f, 2f), 2.5f, Random.Range(-2f, 2f)), ForceMode.Impulse);
+                obj.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-3f, 3f), 3.5f, Random.Range(-3f, 3f)), ForceMode.Impulse);
 
             }
         }

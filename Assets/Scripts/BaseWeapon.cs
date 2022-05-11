@@ -4,12 +4,23 @@ using UnityEngine;
 
 public class BaseWeapon : MonoBehaviour
 {
-    [SerializeField] protected int bulletAmount;
+    public enum Type
+    {
+        WEAPON,
+        TOOL
+    }
     [SerializeField] protected float damage;
+    public float attackDelay;
+    [HideInInspector] public float lastAttackTime;
+    public Type type;
+    [Header("Weapon")]
+    [SerializeField] protected int bulletAmount;
     [SerializeField] protected float speed;
     [SerializeField] protected Transform firePos;
     [SerializeField] private int ReloadbulletAmount;
+    protected bool isAttack;
 
+    #region weapon
     public bool GetBulletAmount()
     {
         if (bulletAmount > 0)
@@ -22,7 +33,13 @@ public class BaseWeapon : MonoBehaviour
             Reload();
             return false;
         }
-                
+
+    }
+
+
+    public bool GetAttack()
+    {
+        return isAttack;
     }
 
     public void SetBulletAmount(int _amount)
@@ -34,10 +51,12 @@ public class BaseWeapon : MonoBehaviour
     {
         bulletAmount = ReloadbulletAmount;
     }
+    #endregion
 
-    public virtual void Shot()
+    public virtual void Attack()
     {
-        Debug.Log("Error");
+        lastAttackTime = Time.time;
+        
     }
 
 

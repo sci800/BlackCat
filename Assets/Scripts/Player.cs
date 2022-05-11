@@ -11,10 +11,7 @@ public enum EItemType
 }
 
 public class Player : BaseStatus
-{
-    
-  
-
+{  
     [SerializeField] private GameObject[] weapons;
     [SerializeField] private LayerMask whatisGround;
     [SerializeField] private GameObject curObject;
@@ -30,6 +27,8 @@ public class Player : BaseStatus
     
     private Inventory inven;
     private BaseWeapon curWeapon;
+    private Animator anim;
+
     private KeyCode[] keyCodes =
     {
         KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3,
@@ -44,6 +43,7 @@ public class Player : BaseStatus
     {
         rb = GetComponent<Rigidbody>();
         inven = GetComponent<Inventory>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -51,6 +51,7 @@ public class Player : BaseStatus
     {
         CheckInput();
         CheckDash();
+        CheckAnimation();
     }
 
     private void FixedUpdate()
@@ -58,6 +59,11 @@ public class Player : BaseStatus
         CheckLookAt();
         CheckApplay();
     }
+
+    private void CheckAnimation()
+    {
+        anim.SetBool("isRun", isdash);
+    }    
 
     private void CheckInput()
     {
@@ -77,16 +83,18 @@ public class Player : BaseStatus
 
         if(Input.GetButtonDown("Fire1"))
         {
-            if(isWeapon == true)
+            if (isWeapon == false) return;
+            if (Time.time >= curWeapon.lastAttackTime + curWeapon.attackDelay)
             {
                 Fire();
             }
+            
         }
 
         if(Input.GetKeyDown(KeyCode.E))
         {
             if (curObject != null)
-            {
+            {             
                 Interaction();
             }
         }
@@ -105,8 +113,16 @@ public class Player : BaseStatus
     
     private void Fire()
     {
-        if (curWeapon.GetBulletAmount())
-            curWeapon.Shot();
+        if (curWeapon.type == BaseWeapon.Type.WEAPON)
+        {
+            if (curWeapon.GetBulletAmount())
+                curWeapon.Attack();
+        }
+        else
+        {
+            if (curWeapon.GetAttack() == false)
+                curWeapon.Attack();
+        }
     }
 
     private void CheckDash()
@@ -132,37 +148,47 @@ public class Player : BaseStatus
 
         if (inven.slotsBig[inven_num].item.itemType == ITEM_TYPE.EQUIPMENT)
         {
-            isWeapon = true;
-            
-
-            switch (inven.slotsBig[inven_num].itemName)
-            {
-                case "Gun":
-                    weapons[0].SetActive(true);
-                    curWeapon = weapons[0].GetComponent<Gun>();
-                    necessaryItem = EItemType.NONE;
-                    break;
-                case "Bow":
-                    weapons[1].SetActive(true);
-                    curWeapon = weapons[1].GetComponent<Bow>();
-                    necessaryItem = EItemType.NONE;
-                    break;
-                case "Axe":
-                    necessaryItem = EItemType.AXE;
-                    break;
-                case "Rake":
-                    necessaryItem = EItemType.RAKE;
-                    break;
-                case "Pick":
-                    necessaryItem = EItemType.PICK;
-                    break;
-
-            }
+            PickWeapon();          
         }
         else
         {
             isWeapon = false;
             necessaryItem = EItemType.NONE;
+        }
+    }
+
+    private void PickWeapon()
+    {
+        isWeapon = true;
+
+        switch (inven.slotsBig[inven_num].itemName)
+        {
+            case "Gun":
+                weapons[0].SetActive(true);
+                curWeapon = weapons[0].GetComponent<Gun>();
+                necessaryItem = EItemType.NONE;
+                break;
+            case "Bow":
+                weapons[1].SetActive(true);
+                curWeapon = weapons[1].GetComponent<Bow>();
+                necessaryItem = EItemType.NONE;
+                break;
+            case "Axe":
+                weapons[2].SetActive(true);
+                curWeapon = weapons[2].GetComponent<Tool>();
+                necessaryItem = EItemType.AXE;
+                break;
+            case "Rake":
+                weapons[3].SetActive(true);
+                curWeapon = weapons[3].GetComponent<Tool>();
+                necessaryItem = EItemType.RAKE;
+                break;
+            case "Pick":
+                weapons[4].SetActive(true);
+                curWeapon = weapons[4].GetComponent<Tool>();
+                necessaryItem = EItemType.PICK;
+                break;
+
         }
     }
 

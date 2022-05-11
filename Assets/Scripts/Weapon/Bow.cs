@@ -6,8 +6,9 @@ public class Bow : BaseWeapon
 {
     [SerializeField] private GameObject bowObject;
 
-    public override void Shot()
+    public override void Attack()
     {
+        base.Attack();
         Debug.Log("Bow");
         GameObject _obj = Instantiate(bowObject, firePos.position, transform.parent.rotation);
         _obj.GetComponent<Bullet>().SetBullet(damage, speed);

@@ -7,8 +7,6 @@ public class Bullet : MonoBehaviour
     private float damage;
     private float speed;
 
-
-
     // Update is called once per frame
     void Update()
     {
@@ -25,7 +23,7 @@ public class Bullet : MonoBehaviour
     {
         if(other.CompareTag("Building") || other.CompareTag("alive"))
         {
-            other.GetComponent<FieldObject>().SendMessage("OnDamage");
+            other.GetComponent<FieldObject>().SendMessage("OnDamage", damage);
             Destroy(this.gameObject);
         }
     }
