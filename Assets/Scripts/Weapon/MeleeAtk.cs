@@ -5,7 +5,12 @@ using UnityEngine;
 public class MeleeAtk : MonoBehaviour
 {
     [SerializeField] private float damage;
+    private Player player;
 
+    private void Start()
+    {
+        player = GetComponentInParent<Player>();
+    }
     public void SetMelee(float _damage)
     {
         damage = _damage;
@@ -14,7 +19,8 @@ public class MeleeAtk : MonoBehaviour
     {
         if (other.CompareTag("Building") || other.CompareTag("alive"))
         {
-            other.GetComponent<FieldObject>().SendMessage("OnDamage", damage);
+ 
+            other.GetComponent<FieldObject>().OnDamage((int)damage, player.necessaryItem);
         }
     }
 }

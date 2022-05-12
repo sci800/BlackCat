@@ -19,6 +19,7 @@ public class FieldObject : MonoBehaviour
         BUILDING
     }
     public TYPE type;
+    public bool rockObject;
 
     public int interaction_Count;
     public int hit_Count;
@@ -61,15 +62,35 @@ public class FieldObject : MonoBehaviour
 
     }
 
-    public void OnDamage(int _damage)
+    //parameters[0] : Damage
+    //parameters[1] : EItemTpye
+    public void OnDamage(int _damage, EItemType _needNecessaryItem)
     {
-        Debug.Log("attack");
-        hit_Count -= _damage;
-        if (hit_Count <= 0)
-        {
-            DropItme(false);
-        }
 
+        if (rockObject == false)
+        {
+            hit_Count -= _damage;
+            if (hit_Count <= 0)
+            {
+                DropItme(false);
+                Destroy(gameObject);
+            }
+        }
+        else
+        {
+            hit_Count--;
+            DropItme(false, _needNecessaryItem);
+            if (hit_Count <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    public void onDead()
+    {
+        DropItme(false);
+        Destroy(gameObject);
     }
 
     private void DropItme(bool _isinteraction, EItemType _needNecessaryItem = EItemType.NONE)

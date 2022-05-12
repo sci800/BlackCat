@@ -15,7 +15,7 @@ public class Player : BaseStatus
     [SerializeField] private GameObject[] weapons;
     [SerializeField] private LayerMask whatisGround;
     [SerializeField] private GameObject curObject;
-    [SerializeField] private EItemType necessaryItem;
+    public EItemType necessaryItem;
 
     private float x_input, z_input;
     private bool isdash, isWeapon,isZoom;
@@ -63,6 +63,7 @@ public class Player : BaseStatus
     private void CheckAnimation()
     {
         anim.SetBool("isRun", isdash);
+        anim.SetBool("isWalk", (x_input != 0 || z_input != 0));
     }    
 
     private void CheckInput()

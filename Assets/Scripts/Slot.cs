@@ -36,6 +36,13 @@ public class Slot : MonoBehaviour
         itemCount.text = _itemCount.ToString();
     }
 
+    public void SubCount(int _count)
+    {
+        Debug.Log(_count);
+        _itemCount -= _count;
+        itemCount.text = _itemCount.ToString();
+    }
+
     public void RemoveSlot()
     {
         item = null;

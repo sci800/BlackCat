@@ -49,6 +49,7 @@ public class Inventory : MonoBehaviour
    
     public bool AddItem(Item _item)
     {
+        
         if(items.Count < SlotCnt)
         {        
             if (_item.itemType != ITEM_TYPE.EQUIPMENT)
@@ -83,6 +84,12 @@ public class Inventory : MonoBehaviour
             }         
         }
         return false;
+      
+    }
+
+    void ReDrawSlotUI()
+    {
+        
     }
 
     private void OnCollisionEnter(Collision collision)
