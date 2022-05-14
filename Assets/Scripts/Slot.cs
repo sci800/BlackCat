@@ -38,16 +38,16 @@ public class Slot : MonoBehaviour
 
     public void SubCount(int _count)
     {
-        Debug.Log(_count);
-        _itemCount -= _count;
+        _itemCount = _count;
         itemCount.text = _itemCount.ToString();
     }
 
     public void RemoveSlot()
     {
-        item = null;
         item.itemName = "";
         _itemCount = 0;
+        itemCount.text = _itemCount.ToString();
+        itemCount.gameObject.SetActive(false);
         itemIcon.gameObject.SetActive(false);
     }
 }

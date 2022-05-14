@@ -18,7 +18,7 @@ public class Player : BaseStatus
     public EItemType necessaryItem;
 
     private float x_input, z_input;
-    private bool isdash, isWeapon,isZoom;
+    private bool isdash, isWeapon, isInteraction;
     private int inven_num = 0;
 
     private Rigidbody rb;
@@ -50,14 +50,20 @@ public class Player : BaseStatus
     void Update()
     {
         CheckInput();
-        CheckDash();
+        if (isInteraction == false)
+        {
+            CheckDash();
+        }
         CheckAnimation();
     }
 
     private void FixedUpdate()
     {
-        CheckLookAt();
-        CheckApplay();
+        if (isInteraction == false)
+        {
+            CheckLookAt();
+            CheckApplay();
+        }
     }
 
     private void CheckAnimation()
