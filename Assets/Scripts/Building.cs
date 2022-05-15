@@ -77,7 +77,6 @@ public class Building : MonoBehaviour
                 }
             }
             index++;
-
         }
 
         buildingUi.UpdateUI();

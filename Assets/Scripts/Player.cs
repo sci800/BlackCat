@@ -16,9 +16,12 @@ public class Player : BaseStatus
     [SerializeField] private LayerMask whatisGround;
     [SerializeField] private GameObject curObject;
     public EItemType necessaryItem;
+    public AudioSource soundSource;
+    public AudioClip runSound;
+    public AudioClip walkSound;
 
     private float x_input, z_input;
-    private bool isdash, isWeapon, isInteraction;
+    private bool isdash, isWeapon, isInteraction, isMoving, isAttack;
     private int inven_num = 0;
 
     private Rigidbody rb;
@@ -44,6 +47,7 @@ public class Player : BaseStatus
         rb = GetComponent<Rigidbody>();
         inven = GetComponent<Inventory>();
         anim = GetComponentInChildren<Animator>();
+        soundSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -55,6 +59,7 @@ public class Player : BaseStatus
             CheckDash();
         }
         CheckAnimation();
+        CheckSound();
     }
 
     private void FixedUpdate()
@@ -66,6 +71,31 @@ public class Player : BaseStatus
         }
     }
 
+    private void CheckSound()
+    {
+        if (x_input != 0 || z_input != 0)
+        {
+            if (isdash)
+            {
+                soundSource.clip = runSound;
+            }
+            else
+            {
+                soundSource.clip = walkSound;
+            }
+            
+        }
+
+        if(isMoving)
+        {
+            if (!soundSource.isPlaying)
+                soundSource.Play();
+        }
+        else
+        {
+            soundSource.Stop();
+        }
+    }
     private void CheckAnimation()
     {
         anim.SetBool("isRun", isdash);
@@ -86,6 +116,15 @@ public class Player : BaseStatus
         else
         {
             isdash = false;
+        }
+
+        if(x_input != 0 || z_input != 0)
+        {
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false;
         }
 
         if(Input.GetButtonDown("Fire1"))

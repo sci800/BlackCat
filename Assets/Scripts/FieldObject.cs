@@ -24,6 +24,7 @@ public class FieldObject : MonoBehaviour
     public int interaction_Count;
     public int hit_Count;
     public float interaction_persent;
+    public AudioSource hitSound;
 
     public Drop_Item[] interraction_dropItems;
     public Drop_Item[] dead_dropItems;
@@ -66,14 +67,19 @@ public class FieldObject : MonoBehaviour
     //parameters[1] : EItemTpye
     public void OnDamage(int _damage, EItemType _needNecessaryItem)
     {
+        if(hitSound.isPlaying)
+        {
+            hitSound.Stop();
+        }
+        hitSound.Play();
 
         if (rockObject == false)
         {
             hit_Count -= _damage;
             if (hit_Count <= 0)
-            {
-                DropItme(false);
-                Destroy(gameObject);
+            {            
+                DropItme(false,_needNecessaryItem);
+                gameObject.SetActive(false);
             }
         }
         else
@@ -82,7 +88,7 @@ public class FieldObject : MonoBehaviour
             DropItme(false, _needNecessaryItem);
             if (hit_Count <= 0)
             {
-                Destroy(gameObject);
+                gameObject.SetActive(false);
             }
         }
     }
@@ -114,6 +120,7 @@ public class FieldObject : MonoBehaviour
         else
         {
             StartCoroutine(Instantiate_delay(_needNecessaryItem));
+            
         }
     }
 
@@ -186,6 +193,7 @@ public class FieldObject : MonoBehaviour
     IEnumerator Instantiate_delay(EItemType _necessaryItem)
     {
         int dropindex = RandomItem(dead_dropItems, false, _necessaryItem);
+        Debug.Log(dropindex);
         if (dropindex >= 0)
         {
             for (int i = 0; i < RandomCount(); i++)
@@ -196,10 +204,11 @@ public class FieldObject : MonoBehaviour
                 kind_obj.transform.localPosition = Vector3.zero;
                 obj.GetComponent<FieldItems>().SetItem(dead_dropItems[dropindex].dropItem);
                 obj.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-3f, 3f), 2.5f, Random.Range(-3f, 3f)), ForceMode.Impulse);
-
+                Debug.Log("in");
                 yield return new WaitForSeconds(0.5f);
             }
         }
+        
     }
 }
 

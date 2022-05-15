@@ -17,7 +17,7 @@ public class BuildingUI : MonoBehaviour
 
     public void UpdateUI()
     {
-        for(int i = 0; i < count.Length; i++)
+        for(int i = 0; i < building.materials.Length; i++)
         {
             count[i].text = string.Format("{0} / {1}", building.materials[i].curCount, building.materials[i].count);
         }
